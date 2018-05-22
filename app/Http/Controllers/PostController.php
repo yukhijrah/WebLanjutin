@@ -46,8 +46,23 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $request->validate ([
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
+        $post = new Post();
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->image = 'Image';
+        $post->author = $request->user()->name;
+        $post->save();
+
+        if($post->save()){
+            return redirect()->route('posts.index');
     }
+
+     }
 
     /**
      * Display the specified resource.
